@@ -1,73 +1,59 @@
 import java.util.*;
 public class LineupQueries {
-	public static long query1(long c,long t) {
-		if (t==2) {
-			if (c==1) return 0;
-			if (c==0) return 1;
-			if (c==2) return 2;
+	
+	public static long query1(long c, long t) {
+		if (c*2 > t) {
+			return c;
 		}
 		
-		if (t<c*2) {
-			return c;
-		}else {
-			long time=c*2;
-			long pos=c;
-			long startpos=c;
-			while (true) {
-				//start moving toward pos 0
-				time = time+pos-1;
-				pos=0;
-//				System.out.println(time);
-				if (time>=t)break;
-				time++;
-				//get rotated
-				long lenofrotation=time/2;
-				pos=lenofrotation;
-				startpos=lenofrotation;
-				if (time>=t)break;
-				time++;
+		long time=c*2-1; t-=time;
+		long pos=c;
+		while (t>=0) {
+			if (t<=pos) {
+				return pos-t;
 			}
-//			System.out.println(startpos+" "+time);
-			long ans=0;
-			if (pos==0) {
-				long starttime=time-startpos;
-				ans=startpos-(t-starttime);
-			}else {
-				ans=pos;
-			}
-			return ans;
+			
+			time+=pos;
+			t-=pos;
+			pos = 0;
+			
+			time++;
+			t--;
+			pos=time/2;
 			
 		}
+		
+		return pos;
 	}
 	
 	public static long query2(long x, long t) {
-		if (t==0) return x;
-		if (x < t/2) {
-			long step = Math.max(1, (t-2*x )/3);
-			return query2(x+step, t-step);
+		if (t==0) {
+			return x;
+		}
+		if (x<t/2) {
+			long step =Math.max(1, (t-2*x)/3);
+			return query2(x+step,t-step);
 		}
 		if (x==t/2) {
 			return query2(0,t-1);
 		}
-		return x;
 		
+		return x;
 	}
 	
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
-		int Q = in.nextInt();
-		while (Q-->0) {
-			int type = in.nextInt();
-			if (type==1) {
-				long c=in.nextLong();
-				long t=in.nextLong();
+		int tc = in.nextInt();
+		while (tc-->0) {
+			int q = in.nextInt();
+			long c = in.nextLong();
+			long t = in.nextLong();
+			if (q==1) {
 				System.out.println(query1(c,t));
 			}else {
-				long x=in.nextLong();
-				long t=in.nextLong();
-				System.out.println(query2(x,t));
-			}
+				System.out.println(query2(c,t));
 				
+			}
 		}
 		in.close();
 	}
