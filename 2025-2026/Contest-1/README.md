@@ -2,6 +2,10 @@
 
 **Problem 1: Lineup Queries**
 
+This is a relatively straightforward problem and is the easiest one out of the three (though the implementation is tricky). For query 1, An element x makes its first move at time 2*x, and moves inwards until it reaches time 0. Therefore, use simulation to track the location. Whenever it reaches position 0, send it to position t/2. Query 2 is trickier, because you need to track when the element at x goes back to time 0. Basically, we travel backward through time until it reaches position t at time t/2. To speed this up, we can use a "safety net". Essentially, formulate a distance that when we travel, it never overestimates the amount so that we never pass position t/2 at time t. This may underestimate by 1 or 2, but we can simply just use quick increments to solve this. Use recursion to find the answer.
+
+The key ideas are to think of properties of the problem, including that the position shifts by 1 and that we can speed up processes.
+
 **Problem 2: Mooclear Reactor**
 
 **Problem 3: Sliding Window Summation**
